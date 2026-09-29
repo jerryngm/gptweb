@@ -33,6 +33,7 @@ const DEFAULT_STATE = Object.freeze({
   zeroRiskProEnabled: false,
   browserSmokePassed: false,
   browserSmokeVersion: null,
+  customExtensionPath: null,
   codexSetupComplete: false,
   claudeSetupComplete: false,
   claudeSetupOutdated: false,

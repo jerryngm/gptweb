@@ -762,6 +762,7 @@ export interface ResolvedBrowserConfig {
   browserDiagnosticsPath?: string;
   storageStatePath: string;
   chromeExecutablePath: string;
+  customExtensionPath?: string;
   turnTimeoutMs?: number;
   headed: boolean;
   autoApproveToolCalls: boolean;
@@ -974,6 +975,7 @@ export function resolveBrowserConfig(provider: CodexProviderConfig): ResolvedBro
     browserDiagnosticsPath,
     storageStatePath: resolve(expandUserPath(configured.storageStatePath?.trim() || join(getConfigDir(), "browser", "storage-state.json"))),
     chromeExecutablePath: resolve(expandUserPath(configured.chromeExecutablePath?.trim() || defaultChromeExecutable())),
+    customExtensionPath: configured.customExtensionPath?.trim(),
     ...(turnTimeoutMs !== undefined ? { turnTimeoutMs } : {}),
     headed: configured.headed !== false,
     autoApproveToolCalls: configured.autoApproveToolCalls === true,
@@ -1331,10 +1333,17 @@ export class ChatGptBrowserWorker {
     if (!existsSync(this.config.chromeExecutablePath)) {
       throw new Error(`Configured Chrome executable does not exist: ${this.config.chromeExecutablePath}`);
     }
-    this.browser = await chromium.launch({
+    const launchOptions: Parameters<typeof chromium.launch>[0] = {
       executablePath: this.config.chromeExecutablePath,
-      headless: !this.config.headed,
-    });
+      headless: this.config.customExtensionPath ? false : !this.config.headed,
+    };
+    if (this.config.customExtensionPath) {
+      launchOptions.args = [
+        `--disable-extensions-except=${this.config.customExtensionPath}`,
+        `--load-extension=${this.config.customExtensionPath}`
+      ];
+    }
+    this.browser = await chromium.launch(launchOptions);
     this.context = await this.browser.newContext({ storageState: this.config.storageStatePath });
     this.page = await this.context.newPage();
     return this.page;
@@ -1349,10 +1358,17 @@ export class ChatGptBrowserWorker {
       if (!existsSync(this.config.chromeExecutablePath)) {
         throw new Error(`Configured Chrome executable does not exist: ${this.config.chromeExecutablePath}`);
       }
-      const browser = await chromium.launch({
+      const launchOptions: Parameters<typeof chromium.launch>[0] = {
         executablePath: this.config.chromeExecutablePath,
-        headless: !this.config.headed,
-      });
+        headless: this.config.customExtensionPath ? false : !this.config.headed,
+      };
+      if (this.config.customExtensionPath) {
+        launchOptions.args = [
+          `--disable-extensions-except=${this.config.customExtensionPath}`,
+          `--load-extension=${this.config.customExtensionPath}`
+        ];
+      }
+      const browser = await chromium.launch(launchOptions);
       const context = await browser.newContext({ storageState: this.config.storageStatePath });
       this.browser = browser;
       this.context = context;

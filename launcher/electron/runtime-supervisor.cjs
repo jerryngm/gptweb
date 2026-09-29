@@ -264,6 +264,9 @@ function validateConfig(config, descriptorPath, platform = process.platform, lau
       throw new Error(`Runtime configuration is missing ${key}`);
     }
   }
+  if (config.customExtensionPath !== undefined && (typeof config.customExtensionPath !== "string" || !config.customExtensionPath.trim())) {
+    throw new Error("Runtime configuration has an invalid customExtensionPath");
+  }
   if (platform === "win32") {
     if (!windowsPipeEndpoint(config.brokerSocketPath)) {
       throw new Error("Runtime configuration has an invalid Windows broker pipe");

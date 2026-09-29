@@ -106,6 +106,7 @@ async function loginCommand(args: string[]): Promise<void> {
   }
 
   const chromeExecutablePath = takeOption(args, "--chrome");
+  const customExtensionPath = takeOption(args, "--extension");
   const storageStatePath = takeOption(args, "--storage-state");
   assertNoArgs(args);
   authorizeLauncherControl("passkey login");
@@ -121,6 +122,7 @@ async function loginCommand(args: string[]): Promise<void> {
     await captureSystemBrowserLoginToFile({
       ...defaultConfig(),
       chromeExecutablePath,
+      customExtensionPath,
       storageStatePath,
     }, { continuation: continuation.promise });
   } finally {
