@@ -3,7 +3,7 @@ import { defaultConfig, providerConfig } from "../src/config";
 import { chatGptAdapterRuntimeConfig } from "../src/adapters/chatgpt-web/adapter-runtime-config";
 
 test("fresh-per-turn is opt-in and unavailable for Enhanced, including stale state", () => {
-  const config = { ...defaultConfig(), experimentalFreshConversationPerTurn: true, useSavedChats: true };
+  const config = { ...defaultConfig(), experimentalFreshConversationPerTurn: true, useSavedChats: true, useWorkMode: false };
   config.useEnhancedWebSessionMode = false;
   expect(providerConfig(config).chatgptWeb?.experimentalFreshConversationPerTurn).toBeTrue();
   expect(providerConfig(config).chatgptWeb?.useSavedChats).toBeTrue();

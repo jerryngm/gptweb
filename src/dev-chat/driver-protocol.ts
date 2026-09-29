@@ -347,6 +347,7 @@ export function createLauncherDevAdapter(
       experimentalFreshConversationPerTurn: !config.useEnhancedWebSessionMode
         && config.browserInteractionMode !== "manual" && config.experimentalFreshConversationPerTurn,
       useSavedChats: config.useSavedChats,
+      useWorkMode: config.useWorkMode,
       ...(config.experimentalBiggerContext ? { experimentalBiggerContext: true } : {}),
     },
   }, { broker });

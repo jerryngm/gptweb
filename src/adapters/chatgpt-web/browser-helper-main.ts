@@ -125,6 +125,7 @@ async function run(message: RunMessage): Promise<void> {
       experimentalNoAutoCompact: message.config.experimentalNoAutoCompact === true,
       experimentalComposerPlainText: message.config.experimentalComposerPlainText === true,
       useSavedChats: message.config.useSavedChats === true,
+      useWorkMode: message.config.useWorkMode === true,
     },
   };
   const abortController = new AbortController();

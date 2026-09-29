@@ -364,6 +364,7 @@ export async function runDevCommand(args: string[]): Promise<void> {
     const savedChats = takeFlag(args, "--saved-chats");
     const temporaryChats = takeFlag(args, "--temporary-chats");
     if (savedChats && temporaryChats) throw new Error("Choose --saved-chats or --temporary-chats");
+    const workMode = takeFlag(args, "--work-mode");
     const freshConversation = takeFlag(args, "--fresh-conversation");
     const retainedConversation = takeFlag(args, "--retained-conversation");
     if (freshConversation && retainedConversation) {
@@ -401,6 +402,7 @@ export async function runDevCommand(args: string[]): Promise<void> {
       ...(noAutoCompact || autoCompact ? { experimentalNoAutoCompact: noAutoCompact } : {}),
       ...(freshConversation || retainedConversation ? { experimentalFreshConversationPerTurn: freshConversation } : {}),
       ...(savedChats || temporaryChats ? { useSavedChats: savedChats } : {}),
+      ...(workMode ? { useWorkMode: true } : {}),
       ...(tunnelId ? { tunnelId } : {}),
       ...(runtimeKeyFile ? { runtimeKeyFile } : {}),
     });

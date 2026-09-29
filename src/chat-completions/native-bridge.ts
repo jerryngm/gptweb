@@ -79,7 +79,7 @@ export class NativeChatCompletionBridge {
     _onText: (delta: string) => void): Promise<{ answer: string; result: ChatCompletionResult }> {
     // API turns are Temporary even when Codex/Claude task chats are saved globally.
     // Use the same effective config for dispatch, liveness lookup, and retirement.
-    config = { ...config, useSavedChats: false, experimentalFreshConversationPerTurn: false };
+    config = { ...config, useSavedChats: false, experimentalFreshConversationPerTurn: false, useWorkMode: false };
     const route = resolveChatCompletionRoute(input, config);
     const effectiveRoute = JSON.stringify([route.backendModel, route.modelFamily ?? null, route.adapterEffort]);
     this.prune();

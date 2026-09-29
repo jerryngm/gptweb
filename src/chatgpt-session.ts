@@ -13,6 +13,7 @@ export const CHATGPT_COMPOSER_SELECTOR = [
   '[contenteditable="true"][data-lexical-editor="true"]',
   'form[data-chatgpt-composer] [data-composer-markdown][contenteditable="true"][role="textbox"]',
 ].join(", ");
+export const CHATGPT_WORK_MODE_TOGGLE_SELECTOR = 'button[data-tpp-toggle-value="work"]';
 export const CHATGPT_EFFORT_CONTROL_SELECTOR = [
   'button[data-tone="neutral"][aria-haspopup="menu"]',
   'button[data-testid="model-switcher-dropdown-button"][aria-haspopup="menu"]',
@@ -404,4 +405,18 @@ export async function detectChatGptAccountCapabilities(
   } finally {
     await page.keyboard.press("Escape").catch(() => {});
   }
+}
+
+export async function enableChatGptWorkMode(page: Page, captureDiagnostic?: (checkpoint: string) => Promise<void>): Promise<boolean> {
+  const toggle = page.locator(CHATGPT_WORK_MODE_TOGGLE_SELECTOR).filter({ visible: true }).first();
+  if (await toggle.count() > 0) {
+    const isChecked = await toggle.getAttribute("aria-checked");
+    if (isChecked !== "true") {
+      await toggle.click();
+      await page.waitForTimeout(500); // give UI time to settle
+      await captureDiagnostic?.("work-mode-enabled");
+      return true;
+    }
+  }
+  return false;
 }

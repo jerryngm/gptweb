@@ -99,7 +99,7 @@ for (const development of [false, true]) for (const interaction of ["manual", "a
       await listener.stop(true);
       const result = await (development ? setupDevProfile : setup)({ ...options, port,
         ...(interaction === "automatic" ? { experimentalFreshConversationPerTurn: true } : {}),
-        useSavedChats: true,
+        useSavedChats: true, useWorkMode: false,
         connectorNameSuffix: "Work",
       });
       expect(calls).toEqual(development ? ["save"] : ["save", "integrate"]);

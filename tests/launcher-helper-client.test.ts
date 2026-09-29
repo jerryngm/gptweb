@@ -97,7 +97,7 @@ test("Bun daemon prepares only the resume prompt selected by the persistent Node
     headed: true,
     autoApproveToolCalls: false,
 
-    useSavedChats: true,
+    useSavedChats: true, useWorkMode: false,
   };
   const reasoning: Array<{ text: string; continuation: boolean }> = [];
   const deltas: string[] = [];
@@ -220,7 +220,7 @@ test("a rejected prompt preparation releases the helper turn before the trace ca
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const turn = (prepare: BrowserTurn["prepare"]): BrowserTurn => ({
     traceId: "reusable-trace-123",
@@ -289,7 +289,7 @@ test("accepted compaction retires through the helper as completed without hiding
     appName: "Codex Native2", browserHost: "launcher", browserHostDescriptorPath: descriptorPath,
     browserHelperScriptPath: helper, browserDiagnosticsPath: join(root, "diagnostics"),
     storageStatePath: join(root, "unused-state.json"), chromeExecutablePath: join(root, "unused-chrome"),
-    turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false, useSavedChats: false,
+    turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false, useSavedChats: false, useWorkMode: false,
   });
   const logs: string[] = [];
   const logger = spyOn(console, "info").mockImplementation((...args) => { logs.push(args.join(" ")); });
@@ -342,7 +342,7 @@ test("launcher helper protocol preserves multipart context and the compaction fl
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
 
   });
   const internal = client as unknown as {
@@ -427,7 +427,7 @@ test("an abort dispatched during run submission cannot overtake the run frame", 
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
 
   });
   const internal = client as unknown as {
@@ -475,7 +475,7 @@ test("structured helper errors preserve the ChatGPT adapter failure contract", a
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
 
   });
   const internal = client as unknown as {
@@ -527,7 +527,7 @@ test("structured helper errors preserve the ChatGPT adapter failure contract", a
 test("an older helper cannot silently drop selected skill files and releases the prepared turn", async () => {
   const client = new LauncherBrowserHelperClient({
     appName: "Codex Native2", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
-    storageStatePath: "/durable/unused.json", chromeExecutablePath: "/durable/chrome", headed: true, autoApproveToolCalls: false, useSavedChats: false,
+    storageStatePath: "/durable/unused.json", chromeExecutablePath: "/durable/chrome", headed: true, autoApproveToolCalls: false, useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     child: unknown;
@@ -577,7 +577,7 @@ test("an abort dispatched during run submission cannot overtake the run frame", 
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     ensureChild(): Promise<void>;
@@ -616,7 +616,7 @@ test("an abort dispatched during run submission cannot overtake the run frame", 
 
 test("checkpoint preemption uses a non-aborting helper control frame", async () => {
   const sent: unknown[] = [];
-  const client = new LauncherBrowserHelperClient({ useSavedChats: false,
+  const client = new LauncherBrowserHelperClient({ useSavedChats: false, useWorkMode: false,
     appName: "Codex Native", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
     storageStatePath: "/durable/unused-state.json", chromeExecutablePath: "/durable/unused-chrome",
     turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false,
@@ -705,7 +705,7 @@ test("persistent helper acknowledges compaction-boundary retention before termin
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: true,
+    useSavedChats: true, useWorkMode: false,
   });
   let submitted!: () => void;
   const submission = new Promise<void>(resolve => { submitted = resolve; });
@@ -743,7 +743,7 @@ test("structured helper errors preserve the ChatGPT adapter failure contract", a
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     child?: unknown;
@@ -801,7 +801,7 @@ test("a synchronous answer retry failure rejects only its browser turn", async (
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     child?: unknown;
@@ -850,7 +850,7 @@ test("launcher helper retries recoverable browser failures in the same turn", as
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const sent: unknown[] = [];
   let failure = "";
@@ -897,7 +897,7 @@ test("launcher helper retries recoverable browser failures in the same turn", as
 });
 
 test("launcher helper preserves structured replacement retries for completion evidence failures", async () => {
-  const client = new LauncherBrowserHelperClient({ useSavedChats: false,
+  const client = new LauncherBrowserHelperClient({ useSavedChats: false, useWorkMode: false,
     appName: "Codex Native", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
     storageStatePath: "/durable/unused-state.json", chromeExecutablePath: "/durable/unused-chrome",
     turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false,
@@ -947,7 +947,7 @@ test("launcher helper preserves structured replacement retries for completion ev
 });
 
 test("launcher helper preserves the Luna safety retry allowance across the process boundary", async () => {
-  const client = new LauncherBrowserHelperClient({ useSavedChats: false,
+  const client = new LauncherBrowserHelperClient({ useSavedChats: false, useWorkMode: false,
     appName: "Codex Native", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
     storageStatePath: "/durable/unused-state.json", chromeExecutablePath: "/durable/chrome",
     turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false,
@@ -984,7 +984,7 @@ test("launcher helper preserves the Luna safety retry allowance across the proce
 });
 
 test("Luna safety retries require an explicitly compatible launcher helper", async () => {
-  const client = new LauncherBrowserHelperClient({ useSavedChats: false,
+  const client = new LauncherBrowserHelperClient({ useSavedChats: false, useWorkMode: false,
     appName: "Codex Native", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
     storageStatePath: "/durable/unused-state.json", chromeExecutablePath: "/durable/chrome",
     turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false,
@@ -1021,7 +1021,7 @@ test("Luna safety retries require an explicitly compatible launcher helper", asy
 });
 
 test("launcher helper preserves retry submission acknowledgement across the process boundary", async () => {
-  const client = new LauncherBrowserHelperClient({ useSavedChats: false,
+  const client = new LauncherBrowserHelperClient({ useSavedChats: false, useWorkMode: false,
     appName: "Codex Native", browserHost: "launcher", browserHostDescriptorPath: "/durable/launcher.json",
     storageStatePath: "/durable/unused-state.json", chromeExecutablePath: "/durable/unused-chrome",
     turnTimeoutMs: 60_000, headed: true, autoApproveToolCalls: false,
