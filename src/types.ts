@@ -294,6 +294,8 @@ export interface CodexProviderConfig {
     storageStatePath?: string;
     /** System Chrome executable. The runtime never downloads a browser. */
     chromeExecutablePath?: string;
+    /** Custom Google Chrome extension path to load */
+    customExtensionPath?: string;
     /** Unix socket bridging the turn-bound MCP capability into outer Codex tools. */
     brokerSocketPath?: string;
     /** Persisted, trusted Codex task authority used for follow-up turns that omit the envelope. */

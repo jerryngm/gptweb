@@ -34,6 +34,7 @@ export interface LauncherState {
   sidebarWidth: number;
   browserSmokePassed?: boolean;
   browserSmokeVersion?: string | null;
+  customExtensionPath: string | null;
   codexSetupComplete: boolean;
   claudeSetupComplete: boolean;
   claudeSetupOutdated: boolean;
@@ -223,6 +224,8 @@ export interface LauncherApi {
     credentialsRequired: boolean;
     targetMode: BrowserInteractionMode;
   }>;
+  setCustomExtensionPath(path: string | null): Promise<LauncherState>;
+  injectCookies(cookies: string, format: "netscape" | "json"): Promise<{ ok: boolean; error?: string }>;
   setPreference(
     key: "keepRunningOnClose" | "showBrowserDuringTurns" | "lockBrowserDuringTurns",
     value: boolean,

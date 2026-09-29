@@ -65,6 +65,8 @@ contextBridge.exposeInMainWorld("codexWebLauncher", {
   setUseSavedChats: (enabled) => ipcRenderer.invoke("launcher:use-saved-chats", enabled),
   setZeroRiskPro: (enabled) => ipcRenderer.invoke("launcher:zero-risk-pro", enabled),
   setBrowserInteractionMode: (mode) => ipcRenderer.invoke("launcher:browser-interaction-mode", mode),
+  setCustomExtensionPath: (path) => ipcRenderer.invoke("launcher:set-custom-extension-path", path),
+  injectCookies: (cookies, format) => ipcRenderer.invoke("launcher:inject-cookies", cookies, format),
   setPreference: (key, value) => ipcRenderer.invoke("launcher:set-preference", key, value),
   setSidebarState: (state) => ipcRenderer.invoke("launcher:sidebar-state", state),
   logs: (limit) => ipcRenderer.invoke("launcher:logs", limit),

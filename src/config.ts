@@ -480,6 +480,7 @@ function parseConfig(value: unknown, path: string): AppConfig {
     experimentalSkillAttachments,
     experimentalNoAutoCompact: parsed.experimentalNoAutoCompact === true,
     ...(parsed.experimentalComposerPlainText === true ? { experimentalComposerPlainText: true } : {}),
+    ...(typeof parsed.customExtensionPath === "string" ? { customExtensionPath: parsed.customExtensionPath } : {}),
     experimentalFreshConversationPerTurn,
     useSavedChats,
     zeroRiskProEnabled,

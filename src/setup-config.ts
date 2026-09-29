@@ -25,6 +25,7 @@ export interface SetupOptions {
   subagentProtocol?: SubagentProtocol;
   port?: number;
   chromeExecutablePath?: string;
+  customExtensionPath?: string;
   browserHostDescriptorPath?: string;
   refreshAccountCapabilities?: boolean;
   forceLogin?: boolean;
@@ -93,6 +94,7 @@ export function buildSetupConfig(
     config.port = options.port;
   }
   if (options.chromeExecutablePath) config.chromeExecutablePath = options.chromeExecutablePath;
+  if (options.customExtensionPath) config.customExtensionPath = options.customExtensionPath;
   if (options.browserHostDescriptorPath) {
     config.browserHost = "launcher";
     config.browserHostDescriptorPath = options.browserHostDescriptorPath;

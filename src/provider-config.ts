@@ -40,6 +40,7 @@ export function providerConfig(config: AppConfig): CodexProviderConfig {
       browserHostDescriptorPath: config.browserHostDescriptorPath,
       storageStatePath: config.storageStatePath,
       chromeExecutablePath: config.chromeExecutablePath,
+      customExtensionPath: config.customExtensionPath,
       brokerSocketPath: config.brokerSocketPath,
       threadEnvironmentStatePath: join(getConfigDir(), "runtime", "thread-environments.json"),
       lunaCheckpointStatePath: join(getConfigDir(), "runtime", "luna-checkpoints.json"),

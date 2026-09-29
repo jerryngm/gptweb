@@ -177,7 +177,11 @@ async function inspectStoredState(
     executablePath: config.chromeExecutablePath,
     headless: false,
     ignoreDefaultArgs: ["--password-store=basic", "--use-mock-keychain"],
-    args: ["--no-first-run", "--no-default-browser-check"],
+    args: ["--no-first-run", "--no-default-browser-check",
+      ...(config.customExtensionPath ? [
+        `--disable-extensions-except=${config.customExtensionPath}`,
+        `--load-extension=${config.customExtensionPath}`
+      ] : [])],
   });
   try {
     const verifierContext = await verifierBrowser.newContext({ storageState });
@@ -229,7 +233,7 @@ export function storedBrowserLoginCapabilities(
 }
 
 export async function captureSystemBrowserLogin(
-  config: Pick<AppConfig, "chromeExecutablePath" | "storageStatePath">,
+  config: Pick<AppConfig, "chromeExecutablePath" | "storageStatePath" | "customExtensionPath">,
   options: SystemBrowserLoginOptions,
 ): Promise<SystemBrowserLoginCapture> {
   if (process.platform !== "darwin") {
@@ -385,7 +389,7 @@ export async function captureSystemBrowserLogin(
 }
 
 export async function captureSystemBrowserLoginToFile(
-  config: Pick<AppConfig, "chromeExecutablePath" | "storageStatePath">,
+  config: Pick<AppConfig, "chromeExecutablePath" | "storageStatePath" | "customExtensionPath">,
   options: SystemBrowserLoginOptions,
 ): Promise<void> {
   const capture = await captureSystemBrowserLogin(config, options);
@@ -475,8 +479,12 @@ export async function checkBrowserEngine(config: AppConfig): Promise<void> {
   if (!existsSync(config.chromeExecutablePath)) throw new Error(`Google Chrome was not found at ${config.chromeExecutablePath}`);
   const browser = await chromium.launch({
     executablePath: config.chromeExecutablePath,
-    headless: true,
-    args: ["--no-first-run", "--no-default-browser-check"],
+    headless: config.customExtensionPath ? false : true,
+    args: ["--no-first-run", "--no-default-browser-check",
+      ...(config.customExtensionPath ? [
+        `--disable-extensions-except=${config.customExtensionPath}`,
+        `--load-extension=${config.customExtensionPath}`
+      ] : [])],
   });
   try {
     const page = await browser.newPage();

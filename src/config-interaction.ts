@@ -105,6 +105,7 @@ export interface AppConfig {
   browserInteractionMode: BrowserInteractionMode;
   browserHostDescriptorPath?: string;
   chromeExecutablePath: string;
+  customExtensionPath?: string;
   storageStatePath: string;
   brokerSocketPath: string;
   headed: boolean;
