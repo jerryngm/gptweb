@@ -35,6 +35,7 @@ export interface SetupOptions {
   experimentalNoAutoCompact?: boolean;
   experimentalFreshConversationPerTurn?: boolean;
   useSavedChats?: boolean;
+  useWorkMode?: boolean;
   zeroRiskProEnabled?: boolean;
   replaceCodexRoute?: boolean;
   restartService?: boolean;
@@ -110,6 +111,7 @@ export function buildSetupConfig(
     if (options.useEnhancedWebSessionMode) config.experimentalBiggerContext = false;
   }
   if (options.useSavedChats !== undefined) config.useSavedChats = options.useSavedChats;
+  if (options.useWorkMode !== undefined) config.useWorkMode = options.useWorkMode;
   if (options.experimentalFreshConversationPerTurn !== undefined) {
     if (options.experimentalFreshConversationPerTurn
       && (config.useEnhancedWebSessionMode || config.browserInteractionMode === "manual")) {

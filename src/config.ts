@@ -113,6 +113,7 @@ export function defaultConfig(mode: RuntimeMode = "browser-only"): AppConfig {
     experimentalNoAutoCompact: false,
     experimentalFreshConversationPerTurn: false,
     useSavedChats: false,
+    useWorkMode: false,
     zeroRiskProEnabled: false,
     autoApproveToolCalls: false,
     controlToken: randomBytes(32).toString("base64url"),
@@ -453,6 +454,11 @@ function parseConfig(value: unknown, path: string): AppConfig {
     throw new Error(`Invalid useSavedChats in ${path}`);
   }
   const useSavedChats = parsed.useSavedChats === true;
+
+  if (parsed.useWorkMode !== undefined && typeof parsed.useWorkMode !== "boolean") {
+    throw new Error(`Invalid useWorkMode in ${path}`);
+  }
+  const useWorkMode = parsed.useWorkMode === true;
   if (browserInteractionMode === "manual" && experimentalSkillAttachments) {
     throw new Error(`Zero Risk does not support Skills as files in ${path}`);
   }
@@ -482,6 +488,7 @@ function parseConfig(value: unknown, path: string): AppConfig {
     ...(parsed.experimentalComposerPlainText === true ? { experimentalComposerPlainText: true } : {}),
     experimentalFreshConversationPerTurn,
     useSavedChats,
+    useWorkMode,
     zeroRiskProEnabled,
   } as AppConfig;
 }

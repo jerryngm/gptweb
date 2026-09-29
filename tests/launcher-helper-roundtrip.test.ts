@@ -86,7 +86,7 @@ test("daemon streams browser lifecycle through the real helper process", async (
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
     experimentalNoAutoCompact: true,
   };
   const reasoning: Array<{ text: string; continuation: boolean }> = [];
@@ -190,7 +190,7 @@ test("structured output fails closed before dispatch to an older helper", async 
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   try {
     await expect(client.run({
@@ -218,7 +218,7 @@ test("launcher helper protocol preserves multipart context and the compaction fl
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     pending: Map<string, { resolve(value: string): void }>;
@@ -295,7 +295,7 @@ test("an abort dispatched during run submission cannot overtake the run frame", 
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     ensureChild(): Promise<void>;
@@ -342,7 +342,7 @@ test("structured helper errors preserve the ChatGPT adapter failure contract", a
     turnTimeoutMs: 60_000,
     headed: true,
     autoApproveToolCalls: false,
-    useSavedChats: false,
+    useSavedChats: false, useWorkMode: false,
   });
   const internal = client as unknown as {
     child?: unknown;

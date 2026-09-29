@@ -341,5 +341,6 @@ export interface CodexProviderConfig {
     experimentalFreshConversationPerTurn?: boolean;
     /** Use ordinary ChatGPT history for task conversations. Default: Temporary Chat. */
     useSavedChats?: boolean;
+    useWorkMode?: boolean;
   };
 }

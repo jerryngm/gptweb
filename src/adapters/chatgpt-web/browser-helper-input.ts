@@ -13,6 +13,7 @@ export interface BrowserHelperRunMessage {
     turnTimeoutMs: number;
     autoApproveToolCalls: boolean;
     useSavedChats?: boolean;
+    useWorkMode?: boolean;
     experimentalNoAutoCompact?: boolean;
     /** Candidate only: replace large guarded insertions; preserve existing direct inline routes. */
     experimentalComposerPlainText?: boolean;

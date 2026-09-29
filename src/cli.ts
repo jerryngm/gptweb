@@ -190,6 +190,8 @@ async function setupCommand(args: string[]): Promise<void> {
   const temporaryChats = takeFlag(args, "--temporary-chats");
   if (savedChats && temporaryChats) throw new Error("Choose --saved-chats or --temporary-chats");
   if (savedChats || temporaryChats) options.useSavedChats = savedChats;
+  const workMode = takeFlag(args, "--work-mode");
+  if (workMode) options.useWorkMode = true;
   const freshConversation = takeFlag(args, "--fresh-conversation");
   const retainedConversation = takeFlag(args, "--retained-conversation");
   if (freshConversation && retainedConversation) {

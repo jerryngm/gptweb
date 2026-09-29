@@ -96,7 +96,7 @@ export function createChatCompletionExecutor(dependencies: ChatCompletionRuntime
     const provider = providerConfig(config);
     provider.chatgptWeb = { ...provider.chatgptWeb,
       localToolsEnabled: false, useEnhancedWebSessionMode: false, useEnhancedOutputTunnel: false,
-      useSavedChats: false, experimentalFreshConversationPerTurn: false,
+      useSavedChats: false, experimentalFreshConversationPerTurn: false, useWorkMode: false,
       experimentalBiggerContext: false, experimentalSkillAttachments: false, experimentalNoAutoCompact: false,
       autoApproveToolCalls: false, turnTimeoutMs: provider.chatgptWeb?.turnTimeoutMs || 600_000 };
     // Finite request lifetime includes queueing; worker retains its own settlement/cleanup responsibility.

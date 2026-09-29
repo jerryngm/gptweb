@@ -99,6 +99,7 @@ export class LauncherBrowserHelperClient {
             experimentalNoAutoCompact: this.config.experimentalNoAutoCompact,
             experimentalComposerPlainText: this.config.experimentalComposerPlainText,
             useSavedChats: this.config.useSavedChats,
+            useWorkMode: this.config.useWorkMode,
           },
           turn: {
             traceId: turn.traceId,

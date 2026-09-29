@@ -46,7 +46,7 @@ test("native API binds effective effort and forces Temporary across continuation
     expect(config.experimentalFreshConversationPerTurn).toBe(false); return true;
   } });
   const config = { ...defaultConfig("full"), useEnhancedWebSessionMode: true,
-    useSavedChats: true, experimentalFreshConversationPerTurn: true };
+    useSavedChats: true, useWorkMode: false, experimentalFreshConversationPerTurn: true };
   const input = parseChatCompletion(request({ tools }));
   const first = await bridge.execute(input, config, new AbortController().signal, () => {});
   const call = first.result.tool_calls![0]!;
@@ -60,7 +60,7 @@ test("native API binds effective effort and forces Temporary across continuation
   const final = await bridge.execute({ ...next, reasoningEffort: "high" }, config,
     new AbortController().signal, () => {});
   expect(final.result.content).toBe("done"); expect(calls).toBe(2); expect(liveChecks).toBe(1);
-  for (const settings of configs) expect(settings).toMatchObject({ useSavedChats: false, experimentalFreshConversationPerTurn: false });
+  for (const settings of configs) expect(settings).toMatchObject({ useSavedChats: false, useWorkMode: false, experimentalFreshConversationPerTurn: false });
   for (const body of bodies) expect(body).toMatchObject({ store: false, reasoning: { effort: "high" } });
   expect(config.useSavedChats).toBe(true); // Do not mutate the user's global setting.
 });
@@ -69,10 +69,10 @@ test("direct API pins family/effort and ignores global saved/fresh settings", as
   const root = mkdtempSync(join(tmpdir(), "api-family-"));
   try {
     const execute = createChatCompletionExecutor({ safety: new ChatGptAccountSafety(join(root, "safety.json")), worker(provider) {
-      expect(provider.chatgptWeb).toMatchObject({ useSavedChats: false, experimentalFreshConversationPerTurn: false });
+      expect(provider.chatgptWeb).toMatchObject({ useSavedChats: false, useWorkMode: false, experimentalFreshConversationPerTurn: false });
       return { async run(turn) { expect(turn.modelFamily).toBe("5.6"); expect(turn.reasoning).toBe("high"); return "done"; } };
     } });
-    await execute(parseChatCompletion(request()), { ...defaultConfig(), useSavedChats: true,
+    await execute(parseChatCompletion(request()), { ...defaultConfig(), useSavedChats: true, useWorkMode: false,
       experimentalFreshConversationPerTurn: true }, new AbortController().signal, () => {});
   } finally { rmSync(root, { recursive: true, force: true }); }
 });

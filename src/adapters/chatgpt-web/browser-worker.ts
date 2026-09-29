@@ -168,6 +168,7 @@ import {
 } from "./browser-stage-lifecycle";
 import { setChatGptThinkMode } from "./think-mode";
 import { dismissChatGptTemporaryChatOnboarding } from "./temporary-chat-onboarding";
+import { enableChatGptWorkMode } from "../../chatgpt-session";
 import {
   chatGptPromptAttachmentMismatch,
   clearChatGptComposerInput,
@@ -770,6 +771,7 @@ export interface ResolvedBrowserConfig {
   experimentalComposerPlainText?: boolean;
   maxBrowserTabs?: number;
   useSavedChats: boolean;
+  useWorkMode: boolean;
 }
 
 export class ChatGptTurnDomHealthTracker {
@@ -984,6 +986,7 @@ export function resolveBrowserConfig(provider: CodexProviderConfig): ResolvedBro
       configured.useEnhancedWebSessionMode === true ? MAX_CHATGPT_BROWSER_TABS : ORIGINAL_CHATGPT_BROWSER_TABS,
     ),
     useSavedChats: configured.useSavedChats === true,
+    useWorkMode: configured.useWorkMode === true,
   };
 }
 
@@ -1607,6 +1610,7 @@ export class ChatGptBrowserWorker {
     page: Page,
     captureDiagnostic?: (checkpoint: string) => Promise<void>,
     useSavedChats = false,
+    useWorkMode = false,
   ): Promise<Locator> {
     // Launcher verification refreshes its owned page before attaching Playwright so a newly added
     // connector is present in the catalog. Navigating again here destroys that freshly hydrated
@@ -3895,6 +3899,7 @@ export class ChatGptBrowserWorker {
             page,
             checkpoint => diagnostics.capture(page, checkpoint),
             this.config.useSavedChats,
+            this.config.useWorkMode,
           ),
         );
       }
@@ -4191,6 +4196,7 @@ export class ChatGptBrowserWorker {
                   page,
                   checkpoint => diagnostics.capture(page, checkpoint),
                   this.config.useSavedChats,
+            this.config.useWorkMode,
                 );
               },
               turn.abortSignal,

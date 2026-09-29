@@ -118,6 +118,7 @@ export interface AppConfig {
   experimentalFreshConversationPerTurn: boolean;
   /** Save Codex/Claude chats to history. API Access always remains Temporary Chat. */
   useSavedChats: boolean;
+  useWorkMode: boolean;
   /** Hide routed context limits from Codex and reject routed compact requests. */
   experimentalNoAutoCompact: boolean;
   /** Candidate only: replace large guarded insertions; preserve existing direct inline routes. */
